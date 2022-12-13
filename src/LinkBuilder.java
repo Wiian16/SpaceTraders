@@ -53,7 +53,7 @@ public class LinkBuilder{
             //grabbing child of jsonObject
             Object child = obj.get(key);
             if(child instanceof JsonString || child instanceof JsonNumber){ //child is a value
-                //getting strring and removing any quotation marks
+                //getting string and removing any quotation marks
                 String value = child.toString().replace("\"", "");
                 //storing key, value pair in hashmap
                 content.put(key, value);
