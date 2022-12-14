@@ -1,6 +1,8 @@
 import javax.json.*;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -12,7 +14,7 @@ public class HTTPie {
         url = "api.spacetraders.io";
     }
     //returns a hashmap of key, value from account link
-    public HashMap<String, String> getAccount(){
+    public Account getAccount() throws ParseException {
         JsonObject account;
 
         try {
@@ -21,11 +23,11 @@ public class HTTPie {
             throw new RuntimeException(e);
         }
 
-        return readAllJsonValues(new HashMap<String, String>(), account);
+        return new Account(readAllJsonValues(new HashMap<String, String>(), account));
     }
 
-    public ArrayList<Loan> getAvailableLoans(){
-        ArrayList<Loan> loans = new ArrayList<>();
+    public ArrayList<AvailableLoan> getAvailableLoans(){
+        ArrayList<AvailableLoan> availableLoans = new ArrayList<>();
         JsonObject loansObj;
 
         try{
@@ -40,10 +42,10 @@ public class HTTPie {
             for(String key : value.asJsonObject().keySet()){
                 temp.put(key, value.asJsonObject().get(key).toString().replace("\"", ""));
             }
-            loans.add(new Loan(temp));
+            availableLoans.add(new AvailableLoan(temp));
         }
 
-        return loans;
+        return availableLoans;
     }
 
     public String getStatus(){
@@ -58,7 +60,7 @@ public class HTTPie {
         return status.get("status").toString().replace("\"", "");
     }
 
-    public static HashMap<String, String> readAllJsonValues(HashMap<String, String> content, javax.json.JsonObject obj){
+    public static HashMap<String, String> readAllJsonValues(HashMap<String, String> content, JsonObject obj){
         Set<String> keySet = obj.keySet();
 
         for(String key : keySet){
@@ -69,11 +71,6 @@ public class HTTPie {
                 String value = child.toString().replace("\"", "");
                 //storing key, value pair in hashmap
                 content.put(key, value);
-            } else if(child instanceof JsonArray) {
-                JsonArray arr = (JsonArray) child;
-                for(int i = 0; i < arr.size(); i++){
-
-                }
             } else if(child instanceof JsonObject){ //child is another jsonObject
                 //reading all values from child
                 readAllJsonValues(content, (JsonObject) child);
@@ -83,11 +80,9 @@ public class HTTPie {
         return content;
     }
 
-    public static void main(String [] args){
+    public static void main(String [] args) throws ParseException {
         HTTPie h1 = new HTTPie();
         System.out.println(h1.getStatus());
-        for(Loan l : h1.getAvailableLoans()){
-            System.out.println(l + "\n");
-        }
+        System.out.println(h1.getAccount());
     }
 }

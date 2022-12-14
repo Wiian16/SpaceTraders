@@ -1,33 +1,62 @@
+import javax.swing.text.DateFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Loan {
-    private int amount, rate, termInDays;
-    private boolean collateralRequired;
-    private String type;
+    private Date due;
+    private String id, status, type;
+    private double repaymentAmount;
 
-    public Loan(int amount, int rate, boolean collateralRequired, String type, int termInDays){
-        this.amount = amount;
-        this.rate = rate;
-        this.collateralRequired = collateralRequired;
+    public Loan(Date due, String id, double repaymentAmount, String status, String type){
+        this.due = (Date) due.clone();
+        this.id = id;
+        this.repaymentAmount = repaymentAmount;
+        this.status = status;
         this.type = type;
-        this.termInDays = termInDays;
     }
 
-    public Loan(HashMap<String, String> map){
-        this.amount = Integer.parseInt(map.get("amount"));
-        this.rate = Integer.parseInt(map.get("rate"));
-        this.collateralRequired = Boolean.parseBoolean(map.get("collateralRequired"));
-        this.type = map.get("type");
-        this.termInDays = Integer.parseInt(map.get("termInDays"));
+    public Loan(HashMap<String, String> map) throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ss.SSS'Z'");
+
+        due = df.parse(map.get("due"));
+        id = map.get("id");
+        repaymentAmount = Double.parseDouble(map.get("repaymentAmount"));
+        status = map.get("status");
+        type = map.get("type");
     }
 
-    public String toString() {
+    public Date getDue() {
+        return due;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public double getRepaymentAmount() {
+        return repaymentAmount;
+    }
+
+    public String toString(){
         StringBuilder str = new StringBuilder();
         str.append("Type: ").append(type).append("\n");
-        str.append("Rate: ").append(rate).append("\n");
-        str.append("Collateral Required: ").append(collateralRequired).append("\n");
-        str.append("Term in Days: ").append(termInDays).append("\n");
-
+        str.append("Status: ").append(status).append("\n");
+        str.append("ID: ").append(id).append("\n");
+        str.append("Repayment Amount: ").append(repaymentAmount).append("\n");
+        Calendar c = Calendar.getInstance();
+        c.setTime(due);
+        str.append("Due: ").append(due);
         return str.toString();
     }
 }
