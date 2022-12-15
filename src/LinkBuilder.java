@@ -13,7 +13,20 @@ public class LinkBuilder{
 
     public static final String ACCOUNT = "https://api.spacetraders.io/my/account",
             STATUS = "https://api.spacetraders.io/game/status",
-            AVAILABLE_LOANS = "https://api.spacetraders.io/types/loans";
+            AVAILABLE_LOANS = "https://api.spacetraders.io/types/loans",
+            FLIGHT_PLANS = "https://api.spacetraders.io/types/loans",
+            LEADERBOARD = "https://api.spacetraders.io/game/leaderboard/net-worth",
+            LOANS = "https://api.spacetraders.io/my/loans",
+            PAY_OFF_LOAN = "https://api.spacetraders.io/my/loans/:loanId",
+            LOCATIONS = "https://api.spacetraders.io/locations/:locationSymbol",
+            LOCATION_MARKETPLACE = "https://api.spacetraders.io/locations/:locationSymbol/marketplace",
+            LOCATION_SHIPS = "https://api.spacetraders.io/locations/:locationSymbol/ships",
+            PURCHASE_ORDERS = "https://api.spacetraders.io/my/purchase-orders",
+            SELL_ORDERS = "https://api.spacetraders.io/my/sell-orders",
+            SHIPS = "https://api.spacetraders.io/my/ships",
+            SHIP_INFO = "https://api.spacetraders.io/my/ships/:shipId",
+            JETTISON_CARGO = "https://api.spacetraders.io/my/ships/:shipId/jettison",
+            STRUCTURES = "";
 
     public LinkBuilder(String url, String token){
         link = new StringBuilder(url);
