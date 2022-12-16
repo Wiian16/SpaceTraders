@@ -14,7 +14,8 @@ public class LinkBuilder{
     public static final String ACCOUNT = "https://api.spacetraders.io/my/account",
             STATUS = "https://api.spacetraders.io/game/status",
             AVAILABLE_LOANS = "https://api.spacetraders.io/types/loans",
-            FLIGHT_PLANS = "https://api.spacetraders.io/types/loans",
+            SUBMIT_FLIGHT_PLAN = "https://api.spacetraders.io/my/flight-plans",
+            GET_FLIGHT_PLAN = "https://api.spacetraders.io/my/flight-plans/:flightPlanId",
             LEADERBOARD = "https://api.spacetraders.io/game/leaderboard/net-worth",
             LOANS = "https://api.spacetraders.io/my/loans",
             PAY_OFF_LOAN = "https://api.spacetraders.io/my/loans/:loanId",
@@ -32,9 +33,18 @@ public class LinkBuilder{
         link = new StringBuilder(url);
         link.append('?').append("token=").append(token);
     }
-
+    
+    public LinkBuilder(String url){
+        link = new StringBuilder(url);
+    }
+    //TODO: Check for query key before adding parameter
     public LinkBuilder addParameter(String key, String value){
         link.append('&').append(key).append('=').append(value);
+        return this;
+    }
+    
+    public LinkBuilder replace(String target, String replacement){
+        link = new StringBuilder(link.toString().replace(target, replacement));
         return this;
     }
 

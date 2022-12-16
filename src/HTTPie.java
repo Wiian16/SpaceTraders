@@ -47,6 +47,21 @@ public class HTTPie {
 
         return availableLoans;
     }
+    
+    public FlightPlan getFlightPlan(String flightPlanId) throws ParseException {
+        FlightPlan flightPlan;
+        JsonObject flightPlanObj = null;
+        
+        try{
+            LinkBuilder linkBuilder = new LinkBuilder(LinkBuilder.GET_FLIGHT_PLAN, KEY);
+            linkBuilder.replace(":flightPlanId", flightPlanId);
+            flightPlanObj = linkBuilder.getLinkContent();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return new FlightPlan(readAllJsonValues(new HashMap<>(), flightPlanObj));
+    }
 
     public String getStatus(){
         JsonObject status;
