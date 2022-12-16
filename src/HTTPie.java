@@ -74,6 +74,15 @@ public class HTTPie {
 
         return new FlightPlan(readAllJsonValues(new HashMap<>(), flightPlanObj));
     }
+    
+    public Location getLocation(String locationSymbol) throws IOException {
+        JsonObject locationObj = null;
+        
+        locationObj = new LinkBuilder(LinkBuilder.LOCATIONS, KEY).replace(":locationSymbol", locationSymbol).getLinkContent();
+        
+        return new Location(readAllJsonValues(new HashMap<>(), locationObj));
+        
+    }
 
     public ArrayList<HashMap<String, String>> getLeaderboard(){
         ArrayList<HashMap<String, String>> arr = new ArrayList<>();
