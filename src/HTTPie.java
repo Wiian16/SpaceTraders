@@ -49,7 +49,6 @@ public class HTTPie {
     }
     
     public FlightPlan getFlightPlan(String flightPlanId) throws ParseException {
-        FlightPlan flightPlan;
         JsonObject flightPlanObj = null;
         
         try{
@@ -61,6 +60,43 @@ public class HTTPie {
         }
         
         return new FlightPlan(readAllJsonValues(new HashMap<>(), flightPlanObj));
+    }
+
+    public FlightPlan submitFlightPlan(String shipId, String destination) throws ParseException {
+        JsonObject flightPlanObj = null;
+
+        try{
+            flightPlanObj = new LinkBuilder(LinkBuilder.SUBMIT_FLIGHT_PLAN, KEY).addParameter("shipId", shipId)
+                    .addParameter("destination", destination).getLinkContent();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new FlightPlan(readAllJsonValues(new HashMap<>(), flightPlanObj));
+    }
+
+    public ArrayList<HashMap<String, String>> getLeaderboard(){
+        ArrayList<HashMap<String, String>> arr = new ArrayList<>();
+        JsonObject obj = null;
+
+        try{
+            obj = new LinkBuilder(LinkBuilder.LEADERBOARD, KEY).getLinkContent();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        JsonArray jsonArray = obj.getJsonArray("netWorth");
+        for(JsonValue value : jsonArray){
+            HashMap<String, String> temp = new HashMap<>();
+            for(String key : value.asJsonObject().keySet()){
+                temp.put(key, value.asJsonObject().get(key).toString().replace("\"", ""));
+            }
+            arr.add(temp);
+        }
+
+        arr.add(readAllJsonValues(new HashMap<String, String>(), obj.get("userNetWorth").asJsonObject()));
+
+        return arr;
     }
 
     public String getStatus(){
@@ -98,6 +134,11 @@ public class HTTPie {
     public static void main(String [] args) throws ParseException {
         HTTPie h1 = new HTTPie();
         System.out.println(h1.getStatus());
-        System.out.println(h1.getAccount());
+        for(HashMap<String, String> map : h1.getLeaderboard()){
+            for(String str : map.keySet()){
+                System.out.println(str + ": " + map.get(str));
+            }
+            System.out.println();
+        }
     }
 }
