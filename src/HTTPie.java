@@ -84,6 +84,11 @@ public class HTTPie {
         
     }
 
+    public Marketplace getMarketplace(String locationSymbol) throws IOException {
+        JsonObject marketplaceObj;
+        marketplaceObj = new LinkBuilder(LinkBuilder.LOCATION_MARKETPLACE, KEY).replace(":locationSymbol", locationSymbol).getLinkContent();
+    }
+
     public ArrayList<HashMap<String, String>> getLeaderboard(){
         ArrayList<HashMap<String, String>> arr = new ArrayList<>();
         JsonObject obj = null;
