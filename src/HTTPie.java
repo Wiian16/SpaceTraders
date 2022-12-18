@@ -2,7 +2,6 @@ import javax.json.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -84,9 +83,16 @@ public class HTTPie {
         
     }
 
-    public Marketplace getMarketplace(String locationSymbol) throws IOException {
+    public ArrayList<MarketplaceItem> getMarketplace(String locationSymbol) throws IOException {
+        ArrayList<MarketplaceItem> marketplaceItems = new ArrayList<>();
         JsonObject marketplaceObj;
         marketplaceObj = new LinkBuilder(LinkBuilder.LOCATION_MARKETPLACE, KEY).replace(":locationSymbol", locationSymbol).getLinkContent();
+        JsonArray array = marketplaceObj.getJsonArray("marketplace");
+        for(JsonValue value : array){
+            marketplaceItems.add(new MarketplaceItem(readAllJsonValues(new HashMap<>(), value.asJsonObject())));
+        }
+        
+        return marketplaceItems;
     }
 
     public ArrayList<HashMap<String, String>> getLeaderboard(){

@@ -1,10 +1,10 @@
 import java.util.HashMap;
 
-public class Marketplace {
+public class MarketplaceItem {
     private int pricePerUnit, purchasePricePerUnit, quantityAvailable, spread, volumePerUnit;
     private String symbol;
 
-    public Marketplace(int pricePerUnit, int purchasePricePerUnit, int quantityAvailable, int spread, int volumePerUnit, String symbol) {
+    public MarketplaceItem(int pricePerUnit, int purchasePricePerUnit, int quantityAvailable, int spread, int volumePerUnit, String symbol) {
         this.pricePerUnit = pricePerUnit;
         this.purchasePricePerUnit = purchasePricePerUnit;
         this.quantityAvailable = quantityAvailable;
@@ -13,7 +13,7 @@ public class Marketplace {
         this.symbol = symbol;
     }
 
-    public Marketplace(HashMap<String, String> map){
+    public MarketplaceItem(HashMap<String, String> map){
         pricePerUnit = Integer.parseInt(map.get("pricePerUnit"));
         purchasePricePerUnit = Integer.parseInt(map.get("purchasePricePerUnit"));
         quantityAvailable = Integer.parseInt(map.get("quantityAvailable"));
